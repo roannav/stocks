@@ -4,19 +4,20 @@ import Chart from "react-apexcharts";
 
 type Props = {
   symbol: string;
+  timeGranularity: string;
 };
 
-const StockChart = ({ symbol }: Props) => {
+const StockChart = ({ symbol, timeGranularity }: Props) => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    getData(symbol).then((data) => {
+    getData(symbol, timeGranularity).then((data) => {
       console.log(data);
       setData(data);
     });
-  }, []);
+  }, [symbol, timeGranularity]);
 
-  const seriesData = useMemo(() => toXYData(data), [data]);
+  const seriesData = useMemo(() => toXYData(data, timeGranularity), [data, timeGranularity]);
   console.log(seriesData);
 
   const options = {
