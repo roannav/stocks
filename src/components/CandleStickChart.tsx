@@ -257,7 +257,7 @@ function CandleStickChart() {
       height: 350,
     },
     title: {
-      text: "CandleStick Chart",
+      text: "CandleStick Chart for Sample Data",
       align: "left",
     },
     xaxis: {
@@ -268,6 +268,14 @@ function CandleStickChart() {
         enabled: true,
       },
     },
+    plotOptions:{
+      candlestick: {
+        colors: {
+          upward: '#3C90EB',
+          downward: '#DF7D46'
+        }
+      }
+    }
   };
 
   return (

@@ -5,6 +5,17 @@
   text-align: center;
 }
 
+body {
+  background-color: darkslateblue;
+}
+
+h1 {
+  color: whitesmoke;
+}
+
 .card {
   padding: 1em;
+  margin-bottom: 2em;
+  background-color: whitesmoke;
+  border-radius: 1em;
 }

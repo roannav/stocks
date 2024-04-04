@@ -30,6 +30,54 @@ function App() {
     <>
       <h1>Stocks</h1>
       <div className="card">
+        <Space direction="vertical" size="small">
+          <Space>
+            Stock Symbol:
+            <AutoComplete
+              style={{ width: 200 }}
+              options={options}
+              placeholder="type a stock symbol"
+              filterOption={(inputValue, option) =>
+                option!.value
+                  .toUpperCase()
+                  .indexOf(inputValue.toUpperCase()) !== -1
+              }
+              allowClear={true}
+              onChange={() => {
+                console.log("AutoComplete onChange");
+              }}
+              onSelect={(value: string) => {
+                console.log("AutoComplete onSelect");
+                console.log(value);
+                setSymbol(value);
+              }}
+            />
+          </Space>
+          <Space>
+            Time Granularity:
+            <Radio.Group
+              onChange={onTimeGranularityChange}
+              defaultValue="Daily"
+            >
+              <Radio.Button value="Daily">Daily</Radio.Button>
+              <Radio.Button value="Weekly">Weekly</Radio.Button>
+              <Radio.Button value="Monthly">Monthly</Radio.Button>
+            </Radio.Group>
+          </Space>
+          <StockChart symbol={symbol} timeGranularity={timeGranularity} />
+        </Space>
+      </div>
+
+      <h1>Basic Charts with Sample Data</h1>
+      <div className="card">
+        <CandleStickChart />
+      </div>
+      <div className="card">
+        <LineChart />
+      </div>
+
+      <h1>User Table with Random Data</h1>
+      <div className="card">
         <Button
           type="primary"
           onClick={() => {
@@ -38,45 +86,7 @@ function App() {
         >
           Button 1
         </Button>
-      </div>
-      <div className="card">
-        <Space>
-          Stock Symbol:
-          <AutoComplete
-            style={{ width: 200 }}
-            options={options}
-            placeholder="type a stock symbol"
-            filterOption={(inputValue, option) =>
-              option!.value.toUpperCase().indexOf(inputValue.toUpperCase()) !==
-              -1
-            }
-            allowClear={true}
-            onChange={()=>{console.log("AutoComplete onChange")}}
-            onSelect={(value: string )=>{
-              console.log("AutoComplete onSelect");
-              console.log(value);
-              setSymbol(value);
-            }}
-          />
-        </Space>
-      </div>
-      <div className="card">
-        <Space>
-          Time Granularity:
-          <Radio.Group onChange={onTimeGranularityChange} defaultValue="Daily">
-            <Radio.Button value="Daily">Daily</Radio.Button>
-            <Radio.Button value="Weekly">Weekly</Radio.Button>
-            <Radio.Button value="Monthly">Monthly</Radio.Button>
-          </Radio.Group>
-        </Space>
-      </div>
-      <div>
-        <StockChart symbol={symbol} timeGranularity={timeGranularity} />
-        {/* 
-        <CandleStickChart />
-        <LineChart />
-        */}
-        {/* <StockTable /> */}
+        <StockTable />
       </div>
     </>
   );
