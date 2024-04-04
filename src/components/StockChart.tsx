@@ -26,7 +26,7 @@ const StockChart = ({ symbol, timeGranularity }: Props) => {
       height: 350,
     },
     title: {
-      text: "CandleStick Chart",
+      text: "CandleStick Chart for " + symbol,
       align: "left",
     },
     xaxis: {
@@ -37,12 +37,14 @@ const StockChart = ({ symbol, timeGranularity }: Props) => {
         enabled: true,
       },
     },
-    candlestick: {
-      colors: {
-        upward: "#3C90EB",
-        downward: "#DF7D46",
+    plotOptions:{
+      candlestick: {
+        colors: {
+          upward: "#3C90EB",
+          downward: "#DF7D46",
+        },
       },
-    },
+    }
   };
 
   return (

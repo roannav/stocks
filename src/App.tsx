@@ -19,7 +19,7 @@ const options = [
 
 function App() {
   const [timeGranularity, setTimeGranularity] = useState("Daily");
-  const [symbol, setSymbol] = useState("");
+  const [symbol, setSymbol] = useState("AAPL");
 
   const onTimeGranularityChange = (e: RadioChangeEvent) => {
     console.log(`radio checked:${e.target.value}`);
@@ -45,7 +45,7 @@ function App() {
           <AutoComplete
             style={{ width: 200 }}
             options={options}
-            placeholder="try to type `b`"
+            placeholder="type a stock symbol"
             filterOption={(inputValue, option) =>
               option!.value.toUpperCase().indexOf(inputValue.toUpperCase()) !==
               -1
@@ -72,8 +72,10 @@ function App() {
       </div>
       <div>
         <StockChart symbol={symbol} timeGranularity={timeGranularity} />
+        {/* 
         <CandleStickChart />
         <LineChart />
+        */}
         {/* <StockTable /> */}
       </div>
     </>
