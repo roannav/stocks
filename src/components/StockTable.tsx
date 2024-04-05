@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
-import { Table } from "antd";
-import { DatePicker } from "antd";
+import { useState, useEffect } from "react";
+import { getData } from "../data";
+import { DatePicker, Table, Button } from "antd";
 import type { GetProp, TableProps } from "antd";
-import * as qs from "qs";
 
 type ColumnsType<T> = TableProps<T>["columns"];
 type TablePaginationConfig = Exclude<
@@ -10,16 +9,10 @@ type TablePaginationConfig = Exclude<
   boolean
 >;
 
-interface DataType {
-  name: {
-    first: string;
-    last: string;
-  };
-  gender: string;
-  email: string;
-  login: {
-    uuid: string;
-  };
+interface StockPriceType {
+  date: string;
+  stock: string;
+  price: string;
 }
 
 interface TableParams {
@@ -29,37 +22,28 @@ interface TableParams {
   filters?: Parameters<GetProp<TableProps, "onChange">>[1];
 }
 
-const columns: ColumnsType<DataType> = [
+const columns: ColumnsType<StockPriceType> = [
   {
-    title: "Name",
-    dataIndex: "name",
+    title: "Date",
+    dataIndex: "date",
     sorter: true,
-    render: (name) => `${name.first} ${name.last}`,
     width: "20%",
   },
   {
-    title: "Gender",
-    dataIndex: "gender",
-    filters: [
-      { text: "Male", value: "male" },
-      { text: "Female", value: "female" },
-    ],
+    title: "Stock Symbol",
+    dataIndex: "stock",
+    sorter: true,
     width: "20%",
   },
   {
-    title: "Email",
-    dataIndex: "email",
+    title: "Price",
+    dataIndex: "price",
+    width: "20%",
   },
 ];
 
-const getRandomuserParams = (params: TableParams) => ({
-  results: params.pagination?.pageSize,
-  page: params.pagination?.current,
-  ...params,
-});
-
 function StockTable() {
-  const [data, setData] = useState<DataType[]>();
+  const [data, setData] = useState<StockPriceType[]>();
   const [loading, setLoading] = useState(false);
   const [tableParams, setTableParams] = useState<TableParams>({
     pagination: {
@@ -68,27 +52,43 @@ function StockTable() {
     },
   });
 
+  const formatData = (data) => {
+    const newData: StockPriceType[] = [];
+
+    if (data["Time Series (Daily)"]) {
+      // Object.entries() returns an array of the key-value pairs in an object
+      Object.entries(data["Time Series (Daily)"]).map(
+        //(entry) => console.log(entry)
+        ([key, value]) => {
+          newData.push({
+            date: key,
+            stock: "APPL",
+            price: value["4. close"],
+          });
+        }
+      );
+    }
+
+    return newData;
+  };
+
   const fetchData = () => {
     setLoading(true);
-    fetch(
-      `https://randomuser.me/api?${qs.stringify(
-        getRandomuserParams(tableParams)
-      )}`
-    )
-      .then((res) => res.json())
-      .then(({ results }) => {
-        setData(results);
-        setLoading(false);
-        setTableParams({
-          ...tableParams,
-          pagination: {
-            ...tableParams.pagination,
-            total: 200,
-            // 200 is mock data, you should read it from server
-            // total: data.totalCount,
-          },
-        });
+    getData("AAPL", "Daily").then((data) => {
+      console.log(data);
+      const formattedData: StockPriceType[] = formatData(data);
+      console.log(formattedData);
+      console.log(formattedData.length);
+      setData(formattedData);
+      setLoading(false);
+      setTableParams({
+        ...tableParams,
+        pagination: {
+          ...tableParams.pagination,
+          total: formattedData.length,
+        },
       });
+    });
   };
 
   useEffect(() => {
@@ -114,12 +114,19 @@ function StockTable() {
 
   return (
     <>
-      <div>
-        <DatePicker />
-      </div>
+      The stock price for Apple Computer on <DatePicker /> is:
+      <Button
+        type="primary"
+        onClick={() => {
+          console.log("Clicked button 1");
+        }}
+      >
+        Button 1
+      </Button>
+      <h4>Apple Daily Stock Prices</h4>
       <Table
         columns={columns}
-        rowKey={(record) => record.login.uuid}
+        rowKey={(record) => record.stock + record.date}
         dataSource={data}
         pagination={tableParams.pagination}
         loading={loading}

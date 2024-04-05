@@ -13,6 +13,11 @@ h1 {
   color: whitesmoke;
 }
 
+h4 {
+  text-align: left;
+  margin-left: 1em;
+}
+
 .card {
   padding: 1em;
   margin-bottom: 2em;

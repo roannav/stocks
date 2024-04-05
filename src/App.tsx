@@ -1,10 +1,11 @@
 import { useState } from "react";
 import type { RadioChangeEvent } from "antd";
-import { Radio, Button, Space, AutoComplete } from "antd";
-import StockTable from "./components/StockTable";
+import { Radio, Space, AutoComplete } from "antd";
 import StockChart from "./components/StockChart";
-import LineChart from "./components/LineChart";
 import CandleStickChart from "./components/CandleStickChart";
+import LineChart from "./components/LineChart";
+import UserTable from "./components/UserTable";
+import StockTable from "./components/StockTable";
 import "./App.css";
 
 const options = [
@@ -64,7 +65,9 @@ function App() {
               <Radio.Button value="Monthly">Monthly</Radio.Button>
             </Radio.Group>
           </Space>
+          {/* 
           <StockChart symbol={symbol} timeGranularity={timeGranularity} />
+          */}
         </Space>
       </div>
 
@@ -78,14 +81,11 @@ function App() {
 
       <h1>User Table with Random Data</h1>
       <div className="card">
-        <Button
-          type="primary"
-          onClick={() => {
-            console.log("Clicked button 1");
-          }}
-        >
-          Button 1
-        </Button>
+        <UserTable />
+      </div>
+
+      <h1>Stock Table</h1>
+      <div className="card">
         <StockTable />
       </div>
     </>
