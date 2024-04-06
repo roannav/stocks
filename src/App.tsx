@@ -65,10 +65,13 @@ function App() {
               <Radio.Button value="Monthly">Monthly</Radio.Button>
             </Radio.Group>
           </Space>
-          {/* 
           <StockChart symbol={symbol} timeGranularity={timeGranularity} />
-          */}
         </Space>
+      </div>
+
+      <h1>Stock Table</h1>
+      <div className="card">
+        <StockTable />
       </div>
 
       <h1>Basic Charts with Sample Data</h1>
@@ -82,11 +85,6 @@ function App() {
       <h1>User Table with Random Data</h1>
       <div className="card">
         <UserTable />
-      </div>
-
-      <h1>Stock Table</h1>
-      <div className="card">
-        <StockTable />
       </div>
     </>
   );
